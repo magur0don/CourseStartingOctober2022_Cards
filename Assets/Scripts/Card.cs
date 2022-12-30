@@ -6,7 +6,9 @@ using System.Collections.Generic;
 /// </summary>
 public class Card
 {
-    // 柄
+    /// <summary>
+    /// トランプの柄
+    /// </summary>
     public enum Suit
     {
         Invalid = -1,
