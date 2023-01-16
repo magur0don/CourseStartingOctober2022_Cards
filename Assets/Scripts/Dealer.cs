@@ -14,9 +14,27 @@ public class Dealer : MonoBehaviour
     // トランプを表示するImage
     public Image CardImage;
 
+    // ディーラーにターンを判定してもらう
+    public enum Turn {
+        Player,
+        CPU
+    }
+    public Turn ActorTurn = Turn.Player;
+
+    // 1つ前に選択したカード
+    private Card currentCard;
+    // 1つ前に選択したカード
+    private Image currentCardImage;
+
     // トランプを産むルート
     [SerializeField]
     private RectTransform cardBG;
+
+    [SerializeField]
+    private ConcentrationPlayerBase Player;
+
+    [SerializeField]
+    private ConcentrationPlayerBase CPU;
 
     private void Start()
     {
@@ -46,10 +64,22 @@ public class Dealer : MonoBehaviour
 
             button.onClick.AddListener(() =>
             {
+                switch (ActorTurn)
+                {
+                    // PlayerのターンだったらCPUのターンに
+                    case Turn.Player:
+                        Player.CardChoice(card,cardImage);
+                        break;
+
+                    case Turn.CPU:
+                        // CPUのターンだったらPlayerのターンに
+                        CPU.CardChoice(card, cardImage);
+                        break;
+                }
                 cardImage.sprite = CardAtlas.GetSprite($"Card_{((int)card.CardSuit * 13) + card.Number - 1}");
+
             });
         }
 
-        //card.sprite = CardAtlas.GetSprite($"Card_{((int)clubOne.CardSuit * 13) + clubOne.Number - 1}");
     }
 }
