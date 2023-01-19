@@ -14,6 +14,7 @@ public class ConcentrationPlayerBase : MonoBehaviour
 
     public Image currentChoiceCardImage;
 
+    public bool IsMyTurn = false;
     // 継承先で処理をかく
     public virtual void CardChoice(Card choiceCard, Image choiceCardImage) {
 
@@ -21,15 +22,24 @@ public class ConcentrationPlayerBase : MonoBehaviour
         {
             currentChoiceCard = choiceCard;
             currentChoiceCardImage = choiceCardImage;
+            IsMyTurn = true;
             return;
         }
+
         if (currentChoiceCard.Number == choiceCard.Number)
         {
             // ペアが揃ったので消す
             currentChoiceCardImage.gameObject.SetActive(false);
             choiceCardImage.gameObject.SetActive(false);
             currentChoiceCard = null;
+            // 自分のターンを続行
+            IsMyTurn = true;
             return;
+        }
+        else {
+            // 自分のターンは終了
+            currentChoiceCard = null;
+            IsMyTurn = false;
         }
 
     }
