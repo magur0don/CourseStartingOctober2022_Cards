@@ -25,10 +25,12 @@ public class Dealer : MonoBehaviour
     private Card currentCard;
     // 1つ前に選択したカード
     private Image currentCardImage;
-
     // トランプを産むルート
     [SerializeField]
     private RectTransform cardBG;
+
+    [SerializeField]
+    private ConcentrationGameProgressionManager concentrationGameProgressionManager;
 
     [SerializeField]
     private ConcentrationPlayerBase Player;
@@ -36,7 +38,17 @@ public class Dealer : MonoBehaviour
     [SerializeField]
     private ConcentrationPlayerBase CPU;
 
-    private void Start()
+    public int GetPlayerCardCount
+    {
+        get { return Player.Score; }
+    }
+
+    public int GetCPUCardCount
+    {
+        get { return CPU.Score; }
+    }
+
+    public void Deal()
     {
         Deck.GetDeck();
 
@@ -64,6 +76,10 @@ public class Dealer : MonoBehaviour
 
             button.onClick.AddListener(() =>
             {
+                // ゲームのステートがChoice以外だったら帰る
+                if (concentrationGameProgressionManager.GetGameStates != ConcentrationGameProgressionManager.GameStates.Choice) {
+                    return;
+                }
                 switch (ActorTurn)
                 {
                     // PlayerのターンだったらCPUのターンに
@@ -98,9 +114,4 @@ public class Dealer : MonoBehaviour
         }
     }
 
-    // ディーラーに
-    private void Update()
-    {
-        
-    }
 }
