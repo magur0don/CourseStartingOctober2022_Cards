@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -89,48 +90,47 @@ public class Dealer : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 // ゲームのステートがChoice以外だったら帰る
-                if (concentrationGameProgressionManager.GetGameStates != ConcentrationGameProgressionManager.GameStates.Choice) {
+                if (concentrationGameProgressionManager.GetGameStates != ConcentrationGameProgressionManager.GameStates.Choice)
+                {
                     return;
                 }
-                switch (ActorTurn)
-                {
-                    // PlayerのターンだったらCPUのターンに
-                    case Turn.Player:
-                        Player.CardChoice(card,cardImage);
-                        if (!Player.IsMyTurn) {
-                            // 選択されたカードを裏むける
-                            cardImage.sprite = CardAtlas.GetSprite($"Card_54");
-                            Player.currentChoiceCardImage.sprite = CardAtlas.GetSprite($"Card_54");
-                            ActorTurn = Turn.CPU;
-                            CPU.IsMyTurn = true;
-                            return;
-                        }
-                        cardImage.sprite = CardAtlas.GetSprite($"Card_{((int)card.CardSuit * 13) + card.Number - 1}");
-                        break;
-
-                    case Turn.CPU:
-
-                        // CPUのターンだったらPlayerのターンに
-                        CPU.CardChoice(card, cardImage);
-                        if (!CPU.IsMyTurn)
-                        {
-                            // 選択されたカードを裏むける
-                            cardImage.sprite = CardAtlas.GetSprite($"Card_54");
-                            CPU.currentChoiceCardImage.sprite = CardAtlas.GetSprite($"Card_54");
-
-                            ActorTurn = Turn.Player;
-                            Player.IsMyTurn = true;
-
-                            return;
-                        }
-                        cardImage.sprite = CardAtlas.GetSprite($"Card_{((int)card.CardSuit * 13) + card.Number - 1}");
-                        break;
-                }
-
+                cardImage.sprite = CardAtlas.GetSprite($"Card_{((int)card.CardSuit * 13) + card.Number - 1}");
+                StartCoroutine(CardChoiceVirification(card, cardImage));
             });
         }
     }
 
+    private IEnumerator CardChoiceVirification(Card card, Image cardImage)
+    {
+        switch (ActorTurn)
+        {
+            case Turn.Player:
+                Player.CardChoice(card, cardImage);
+                yield return new WaitForSeconds(1f);
 
+                if (!Player.IsMyTurn)
+                {
+
+                    cardImage.sprite = CardAtlas.GetSprite($"Card_54");
+                    Player.currentChoiceCardImage.sprite = CardAtlas.GetSprite($"Card_54");
+                    ActorTurn = Turn.CPU;
+                    CPU.IsMyTurn = true;
+                }
+                break;
+
+            case Turn.CPU:
+
+                CPU.CardChoice(card, cardImage);
+                yield return new WaitForSeconds(1f);
+                if (!CPU.IsMyTurn)
+                {
+                    cardImage.sprite = CardAtlas.GetSprite($"Card_54");
+                    CPU.currentChoiceCardImage.sprite = CardAtlas.GetSprite($"Card_54");
+                    ActorTurn = Turn.Player;
+                    Player.IsMyTurn = true;
+                }
+                break;
+        }
+    }
 
 }
