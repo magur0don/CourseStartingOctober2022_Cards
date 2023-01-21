@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ConcentrationGameProgressionManager : MonoBehaviour
 {
@@ -22,6 +23,21 @@ public class ConcentrationGameProgressionManager : MonoBehaviour
         get { return gameState; }
     }
 
+
+    public enum GameModes
+    {
+        CPUCardIsPlayerChoice,
+        CPUCardIsComputersChoice
+    }
+
+    public GameModes GameMode = GameModes.CPUCardIsPlayerChoice;
+
+    private float choiceTime = 1f;
+
+    private bool isCPUChoice = false;
+
+
+
     private void Update()
     {
         switch (gameState) {
@@ -38,6 +54,34 @@ public class ConcentrationGameProgressionManager : MonoBehaviour
                 break;
 
             case GameStates.Choice:
+                // ゲームモードがCPUがコンピュータが選ぶ場合は
+                if (GameMode == GameModes.CPUCardIsComputersChoice)
+                {
+                    if (Dealer.GetCPUConcentrationPlayer.IsMyTurn)
+                    {
+                        choiceTime -= Time.deltaTime;
+                        if (choiceTime < 0)
+                        {
+                            var randChoice = Random.Range(0, Dealer.GetCardBGRoot.GetComponentsInChildren<Button>().Length+1);
+                            var randCount = 0;
+                            isCPUChoice = false;
+                            foreach (var card in Dealer.GetCardBGRoot.GetComponentsInChildren<Button>())
+                            {
+                                randCount++;
+                                if (card.image != Dealer.GetCPUConcentrationPlayer.currentChoiceCardImage) {
+
+                                    if (card.gameObject.activeSelf && !isCPUChoice&& randCount == randChoice)
+                                    {
+                                        card.onClick.Invoke();
+                                        isCPUChoice = true;
+                                    }
+                                }
+                            }
+                            choiceTime = 1f;
+                        }
+                    }
+                }
+
                 // カードを取り切る
                 if (Dealer.GetPlayerCardCount + Dealer.GetCPUCardCount == 52)
                 {

@@ -8,6 +8,7 @@ public class Dealer : MonoBehaviour
 {
     private Deck Deck = new Deck();
 
+
     [SerializeField]
     private SpriteAtlas CardAtlas;
 
@@ -21,6 +22,7 @@ public class Dealer : MonoBehaviour
     }
     public Turn ActorTurn = Turn.Player;
 
+
     // 1つ前に選択したカード
     private Card currentCard;
     // 1つ前に選択したカード
@@ -28,6 +30,10 @@ public class Dealer : MonoBehaviour
     // トランプを産むルート
     [SerializeField]
     private RectTransform cardBG;
+
+    public RectTransform GetCardBGRoot {
+        get { return cardBG; }
+    }
 
     [SerializeField]
     private ConcentrationGameProgressionManager concentrationGameProgressionManager;
@@ -37,6 +43,12 @@ public class Dealer : MonoBehaviour
 
     [SerializeField]
     private ConcentrationPlayerBase CPU;
+
+    
+    public ConcentrationPlayerBase GetCPUConcentrationPlayer {
+        get { return CPU; }
+    }
+
 
     public int GetPlayerCardCount
     {
@@ -90,11 +102,14 @@ public class Dealer : MonoBehaviour
                             cardImage.sprite = CardAtlas.GetSprite($"Card_54");
                             Player.currentChoiceCardImage.sprite = CardAtlas.GetSprite($"Card_54");
                             ActorTurn = Turn.CPU;
+                            CPU.IsMyTurn = true;
                             return;
                         }
+                        cardImage.sprite = CardAtlas.GetSprite($"Card_{((int)card.CardSuit * 13) + card.Number - 1}");
                         break;
 
                     case Turn.CPU:
+
                         // CPUのターンだったらPlayerのターンに
                         CPU.CardChoice(card, cardImage);
                         if (!CPU.IsMyTurn)
@@ -104,14 +119,18 @@ public class Dealer : MonoBehaviour
                             CPU.currentChoiceCardImage.sprite = CardAtlas.GetSprite($"Card_54");
 
                             ActorTurn = Turn.Player;
+                            Player.IsMyTurn = true;
+
                             return;
                         }
+                        cardImage.sprite = CardAtlas.GetSprite($"Card_{((int)card.CardSuit * 13) + card.Number - 1}");
                         break;
                 }
-                cardImage.sprite = CardAtlas.GetSprite($"Card_{((int)card.CardSuit * 13) + card.Number - 1}");
 
             });
         }
     }
+
+
 
 }

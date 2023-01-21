@@ -561,6 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dealer: {fileID: 519420033}
+  GameMode: 1
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
