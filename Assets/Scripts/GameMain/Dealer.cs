@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
+using UnityEngine.UIElements.Experimental;
 
 public class Dealer : MonoBehaviour
 {
@@ -77,6 +78,10 @@ public class Dealer : MonoBehaviour
         var clubCardsInHeartCard = clubCards.Any(card => card.CardSuit == Card.Suit.Heart);
         // false
 
+        StartCoroutine(FinishDealingCards());
+    }
+
+    private IEnumerator FinishDealingCards() {
         // カードを産む
         foreach (var card in Deck.CardDeck)
         {
@@ -98,6 +103,10 @@ public class Dealer : MonoBehaviour
                 StartCoroutine(CardChoiceVirification(card, cardImage));
             });
         }
+        //産み終わってから1フレーム待つ
+        yield return new WaitForEndOfFrame();
+
+        GetCardBGRoot.GetComponent<GridLayoutGroup>().enabled = false;
     }
 
     private IEnumerator CardChoiceVirification(Card card, Image cardImage)
