@@ -46,6 +46,7 @@ public class ConcentrationGameProgressionManager : MonoBehaviour
                 break;
             case GameStates.Start:
                 Dealer.GameModes = this.GameMode;
+                GameSoundManager.Instance.PlayBGM(GameSoundManager.BGMTypes.GameMain);
                 // スタートの演出などしたい場合にここで指定する
                 gameState = GameStates.Deal;
                 break;

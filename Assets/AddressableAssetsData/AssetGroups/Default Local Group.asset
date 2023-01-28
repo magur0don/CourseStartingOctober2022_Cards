@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ca0e150d472cc4282a7a58fab4bae603
+  m_SerializeEntries:
+  - m_GUID: c6508279cba334bd79e88546b8def9c2
+    m_Address: Assets/Sounds/BGM/CardGameStart.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+  - m_GUID: 998f21703c9dc41fb8347c5922ba567a
+    m_Address: Assets/Sounds/BGM/DoubtBGM.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+  - m_GUID: fa56ce2f144584111bb5e21114067646
+    m_Address: Assets/Sounds/SE/flipCloseCard.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+  - m_GUID: 532aeb01f92604580ad0df6c103b7ac7
+    m_Address: Assets/Sounds/SE/flipOpenCard.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e3df1c53300c840bdaf0d177ddced8d1, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2310faf35a6de43459b38b0ed5297297, type: 2}
+    - {fileID: 11400000, guid: 2cb5edd485d7a497c86ed6de93efed84, type: 2}
