@@ -74,7 +74,17 @@ public class ConcentrationStartScene : MonoBehaviour
     /// </summary>
     public void OnePlayerStartButtonAction() {
         var gameProgressionManagerGameObject = GameSceneUtil.Instance.
-            NextSceneRootGetGameObjects.Where(x =>x.GetComponent<ConcentrationGameProgressionManager>()).FirstOrDefault();
+            NextSceneRootGetGameObjects.Where(x => x.GetComponentInChildren<ConcentrationGameProgressionManager>()).FirstOrDefault();
+
+        //if (gameProgressionManagerGameObject == null) {
+        //    foreach (var item in GameSceneUtil.Instance.NextSceneRootGetGameObjects)
+        //    {
+        //        if (item.) {
+
+        //        }
+        //    }
+        //}
+
         if (gameProgressionManagerGameObject != null) {
 
             var gameProgressionManager = gameProgressionManagerGameObject.GetComponent<ConcentrationGameProgressionManager>();

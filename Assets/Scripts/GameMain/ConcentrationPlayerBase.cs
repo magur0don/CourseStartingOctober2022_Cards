@@ -30,8 +30,10 @@ public class ConcentrationPlayerBase : MonoBehaviour
     // 継承先で処理をかく
     public virtual void CardChoice(Card choiceCard, Image choiceCardImage) {
 
+
         if (currentChoiceCard == null)
         {
+            GameSoundManager.Instance.PlaySE(GameSoundManager.SETypes.CardOpen);
             currentChoiceCard = choiceCard;
             currentChoiceCardImage = choiceCardImage;
             IsMyTurn = true;
@@ -43,6 +45,7 @@ public class ConcentrationPlayerBase : MonoBehaviour
             return;
         }
 
+        GameSoundManager.Instance.PlaySE(GameSoundManager.SETypes.CardOpen);
         if (currentChoiceCard.Number == choiceCard.Number)
         {
             StartCoroutine(PairChoice(choiceCardImage));
@@ -62,6 +65,8 @@ public class ConcentrationPlayerBase : MonoBehaviour
         // 自分のターンは終了
         currentChoiceCard = null;
         IsMyTurn = false;
+
+        GameSoundManager.Instance.PlaySE(GameSoundManager.SETypes.CardClose);
         // カード選択が終わった際のコールバック
         CardChoiceCallback?.Invoke();
 

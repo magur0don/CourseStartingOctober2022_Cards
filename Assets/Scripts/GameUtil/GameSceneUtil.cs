@@ -6,14 +6,24 @@ using UnityEngine.Events;
 
 public class GameSceneUtil : SingletonMonoBehaviour<GameSceneUtil>
 {
+    string currentSceneName = string.Empty;
+    string nextSceneName = string.Empty;
     /// <summary>
     /// シーンを呼び出す
     /// </summary>
     /// <param name="sceneName"></param>
     public void SingleSceneTransration(string sceneName, UnityAction action = null)
     {
+        currentSceneName = SceneManager.GetActiveScene().name;
+        StartCoroutine(LoadedSceneInvoke(sceneName,action));
+    }
+
+    IEnumerator LoadedSceneInvoke(string sceneName,UnityAction action = null) {
+
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-        if (action != null) {
+        yield return new WaitUntil(()=> SceneManager.GetActiveScene().name != currentSceneName);
+        if (action != null)
+        {
             action.Invoke();
         }
     }
