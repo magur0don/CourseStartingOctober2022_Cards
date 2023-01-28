@@ -153,7 +153,7 @@ public class Dealer : MonoBehaviour
                 turnInformationText.text = $"Next turn is CPU";
                 break;
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.9f);
         turnInformationText.gameObject.SetActive(false);
 
     }
