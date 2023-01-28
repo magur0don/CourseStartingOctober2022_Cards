@@ -5,16 +5,21 @@ using UnityEngine.UI;
 using TMPro;
 public class ConcentrationCPU : ConcentrationPlayerBase
 {
-
+    public ConcentrationGameProgressionManager.GameModes GameModes;
 
     public TextMeshProUGUI ScoreText;
     /// <summary>
-    /// Playerの選択を
+    /// CPUの選択
     /// </summary>
     public override void CardChoice(Card choiceCard,Image choiceCardImage)
     {
         base.CardChoice(choiceCard,choiceCardImage);
-        ScoreText.text = $"CPUScore:{Score}";
+        if (GameModes == ConcentrationGameProgressionManager.GameModes.CPUCardIsComputersChoice) {
+
+            ScoreText.text = $"CPU Score:{Score}";
+            return;
+        }
+        ScoreText.text = $"Player2 Score:{Score}";
 
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.U2D;
 using UnityEngine.UI;
 
 using TMPro;
+using static ConcentrationGameProgressionManager;
 
 public class Dealer : MonoBehaviour
 {
@@ -42,10 +43,10 @@ public class Dealer : MonoBehaviour
     private ConcentrationGameProgressionManager concentrationGameProgressionManager;
 
     [SerializeField]
-    private ConcentrationPlayerBase Player;
+    private ConcentrationPlayer Player;
 
     [SerializeField]
-    private ConcentrationPlayerBase CPU;
+    private ConcentrationCPU CPU;
 
     [SerializeField]
     private TextMeshProUGUI turnInformationText;
@@ -54,7 +55,6 @@ public class Dealer : MonoBehaviour
     public ConcentrationPlayerBase GetCPUConcentrationPlayer {
         get { return CPU; }
     }
-
 
     public int GetPlayerCardCount
     {
@@ -66,12 +66,17 @@ public class Dealer : MonoBehaviour
         get { return CPU.Score; }
     }
 
+    public ConcentrationGameProgressionManager.GameModes GameModes;
+
     public void Deal()
     {
         Deck.GetDeck(true);
 
         Player.PlayerInitialize(CardAtlas.GetSprite($"Card_54"),TurnChange);
         CPU.PlayerInitialize(CardAtlas.GetSprite($"Card_54"),TurnChange);
+
+        // CPUに今回のゲームのモードを伝える
+        CPU.GameModes = this.GameModes;
 
         // Linqにおける例：where
         // ラムダ式でboolを判定し、List内に判定条件に合致する要素を返す
@@ -150,7 +155,13 @@ public class Dealer : MonoBehaviour
                 break;
 
             case Turn.CPU:
-                turnInformationText.text = $"Next turn is CPU";
+                if (GameModes == GameModes.CPUCardIsPlayerChoice)
+                {
+                    turnInformationText.text = $"Next turn is Player2";
+                }
+                else {
+                    turnInformationText.text = $"Next turn is CPU";
+                }
                 break;
         }
         yield return new WaitForSeconds(0.9f);

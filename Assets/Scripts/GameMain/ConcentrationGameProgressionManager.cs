@@ -45,6 +45,7 @@ public class ConcentrationGameProgressionManager : MonoBehaviour
                 gameState = GameStates.Start;
                 break;
             case GameStates.Start:
+                Dealer.GameModes = this.GameMode;
                 // スタートの演出などしたい場合にここで指定する
                 gameState = GameStates.Deal;
                 break;
