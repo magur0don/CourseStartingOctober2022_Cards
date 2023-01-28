@@ -18,8 +18,8 @@ public class GameSceneUtil : SingletonMonoBehaviour<GameSceneUtil>
         StartCoroutine(LoadedSceneInvoke(sceneName,action));
     }
 
-    IEnumerator LoadedSceneInvoke(string sceneName,UnityAction action = null) {
-
+    IEnumerator LoadedSceneInvoke(string sceneName,UnityAction action = null)
+    {
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         yield return new WaitUntil(()=> SceneManager.GetActiveScene().name != currentSceneName);
         if (action != null)
