@@ -38,12 +38,14 @@ public class ConcentrationStartScene : MonoBehaviour
         });
 
         // BGMなどのサウンドファイルをロードする
-        StartCoroutine(resourcesLoad());
+        StartCoroutine(soundResourcesLoad());
+        // エフェクトをロードする
+        StartCoroutine(effectResourcesLoad());
 
         StartCoroutine(startBGM());
     }
 
-    IEnumerator resourcesLoad()
+    IEnumerator soundResourcesLoad()
     {
         var bgmLoadhandle = Addressables.LoadAssetsAsync<AudioClip>("BGM", null);
         yield return bgmLoadhandle;
@@ -60,6 +62,18 @@ public class ConcentrationStartScene : MonoBehaviour
             GameSoundManager.Instance.SetSEAudioClips(seLoadhandle.Result[i]);
         }
         Addressables.Release(seLoadhandle);
+    }
+
+    IEnumerator effectResourcesLoad()
+    {
+        var effectLoadhandle = Addressables.LoadAssetsAsync<GameObject>("GameMainFX", null);
+        yield return effectLoadhandle;
+        for (int i = 0; i < effectLoadhandle.Result.Count; i++)
+        {
+            GameVisualEffectManager.Instance.SetGameMainResultParticleSystems(effectLoadhandle.Result[i]);
+        }
+        Addressables.Release(effectLoadhandle);
+
         resoucesLoadComplete = true;
     }
 
@@ -75,16 +89,6 @@ public class ConcentrationStartScene : MonoBehaviour
     public void OnePlayerStartButtonAction() {
         var gameProgressionManagerGameObject = GameSceneUtil.Instance.
             NextSceneRootGetGameObjects.Where(x => x.GetComponentInChildren<ConcentrationGameProgressionManager>()).FirstOrDefault();
-
-        //if (gameProgressionManagerGameObject == null) {
-        //    foreach (var item in GameSceneUtil.Instance.NextSceneRootGetGameObjects)
-        //    {
-        //        if (item.) {
-
-        //        }
-        //    }
-        //}
-
         if (gameProgressionManagerGameObject != null) {
 
             var gameProgressionManager = gameProgressionManagerGameObject.GetComponent<ConcentrationGameProgressionManager>();

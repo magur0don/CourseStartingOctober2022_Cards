@@ -86,6 +86,7 @@ MonoBehaviour:
     - default
     - SE
     - BGM
+    - GameMainFX
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 8c32321b182744d1882eec0b047aa141, type: 2}

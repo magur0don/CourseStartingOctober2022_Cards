@@ -66,11 +66,46 @@ public class Dealer : MonoBehaviour
         get { return CPU.Score; }
     }
 
+    [SerializeField]
+    private TextMeshProUGUI resultInformationText;
+
     public ConcentrationGameProgressionManager.GameModes GameModes;
+
+    // 結果の表示を行う
+    public void ResultInformation(bool isPlayerWin) {
+        resultInformationText.gameObject.SetActive(true);
+        switch (GameModes) {
+            case GameModes.CPUCardIsComputersChoice:
+                if (isPlayerWin)
+                {
+                    GameVisualEffectManager.Instance.GameResultParticlePlay(GameVisualEffectManager.GameMainResult.GameWin);
+                    resultInformationText.text = $"Player Win";
+                }
+                else {
+                    resultInformationText.text = $"Player Lose";
+                }
+                break;
+
+            case GameModes.CPUCardIsPlayerChoice:
+
+                if (isPlayerWin)
+                {
+                    GameVisualEffectManager.Instance.GameResultParticlePlay(GameVisualEffectManager.GameMainResult.GameWin);
+                    resultInformationText.text = $"Player 1 Win";
+                }
+                else
+                {
+                    GameVisualEffectManager.Instance.GameResultParticlePlay(GameVisualEffectManager.GameMainResult.GameWin);
+                    resultInformationText.text = $"Player 2 Lose";
+                }
+                break;
+        }
+    }
 
     public void Deal()
     {
-        Deck.GetDeck(true);
+        // 一時的に昇順に戻す
+        Deck.GetDeck();
 
         Player.PlayerInitialize(CardAtlas.GetSprite($"Card_54"),TurnChange);
         CPU.PlayerInitialize(CardAtlas.GetSprite($"Card_54"),TurnChange);

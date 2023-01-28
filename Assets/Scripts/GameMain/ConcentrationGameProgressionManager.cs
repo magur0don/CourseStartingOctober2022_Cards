@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ConcentrationGameProgressionManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ConcentrationGameProgressionManager : MonoBehaviour
         Start,
         Deal,
         Choice,
+        GameResult,
         GameEnd
     }
 
@@ -36,7 +38,12 @@ public class ConcentrationGameProgressionManager : MonoBehaviour
 
     private bool isCPUChoice = false;
 
+    [SerializeField]
+    private TextMeshProUGUI resultText;
 
+    public void Result() {
+
+    }
 
     private void Update()
     {
@@ -87,8 +94,14 @@ public class ConcentrationGameProgressionManager : MonoBehaviour
                 // カードを取り切る
                 if (Dealer.GetPlayerCardCount + Dealer.GetCPUCardCount == 52)
                 {
-                    gameState = GameStates.GameEnd;
+                    gameState = GameStates.GameResult;
                 }
+                break;
+
+            case GameStates.GameResult:
+                // ゲームリザルト用の演出を行う
+                Dealer.ResultInformation(Dealer.GetPlayerCardCount > Dealer.GetCPUCardCount);
+                gameState = GameStates.GameEnd;
                 break;
 
             case GameStates.GameEnd:
