@@ -10,9 +10,11 @@ public class Deck
     public List<Card> CardDeck = new List<Card>();
 
     /// <summary>
-    /// 昇順のDeckをゲットする
+    /// デッキを取得する
     /// </summary>
-    public List<Card> GetDeck()
+    /// <param name="isShuffle">シャッフルするか否か</param>
+    /// <returns></returns>
+    public List<Card> GetDeck(bool isShuffle = false)
     {
         // 一度作られたデッキがある場合はCardDeckを返す
         if (CardDeck.FirstOrDefault() != null) {
@@ -24,6 +26,14 @@ public class Deck
         {
             CardDeck.Add(new Card(CardHelper.CardSuitJudge(i), CardHelper.CardNumJudge(i)));
         }
+
+        //  シャッフルする場合はCardDeckをGuidを使って並べ替える
+        if (isShuffle)
+        {
+            return CardDeck = CardDeck.OrderBy(card => Guid.NewGuid()).ToList();
+        }
+
         return CardDeck;
     }
+
 }

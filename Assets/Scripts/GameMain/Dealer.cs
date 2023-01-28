@@ -64,7 +64,7 @@ public class Dealer : MonoBehaviour
 
     public void Deal()
     {
-        Deck.GetDeck();
+        Deck.GetDeck(true);
 
         Player.PlayerInitialize(CardAtlas.GetSprite($"Card_54"),TurnChange);
         CPU.PlayerInitialize(CardAtlas.GetSprite($"Card_54"),TurnChange);
