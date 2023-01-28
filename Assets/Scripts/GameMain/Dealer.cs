@@ -4,8 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
-using UnityEngine.UIElements.Experimental;
-using UnityEngine.Events;
+
+using TMPro;
+
 public class Dealer : MonoBehaviour
 {
     private Deck Deck = new Deck();
@@ -46,7 +47,10 @@ public class Dealer : MonoBehaviour
     [SerializeField]
     private ConcentrationPlayerBase CPU;
 
-    
+    [SerializeField]
+    private TextMeshProUGUI turnInformationText;
+
+
     public ConcentrationPlayerBase GetCPUConcentrationPlayer {
         get { return CPU; }
     }
@@ -135,5 +139,23 @@ public class Dealer : MonoBehaviour
                 }
                 break;
         }
+        StartCoroutine(TurnInformaiton(ActorTurn));
     }
+
+    private IEnumerator TurnInformaiton(Turn turn) {
+        turnInformationText.gameObject.SetActive(true);
+        switch (turn) {
+            case Turn.Player:
+                turnInformationText.text = $"Next turn is Player";
+                break;
+
+            case Turn.CPU:
+                turnInformationText.text = $"Next turn is CPU";
+                break;
+        }
+        yield return new WaitForSeconds(0.5f);
+        turnInformationText.gameObject.SetActive(false);
+
+    }
+
 }
