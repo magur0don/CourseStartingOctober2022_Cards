@@ -74,8 +74,9 @@ public class GameSoundManager : SingletonMonoBehaviour<GameSoundManager>
         }
         foreach (var seAudio in SEAudioSources) {
             if (!seAudio.isPlaying) {
-
-                seAudio.PlayOneShot(SEAudioClips[(int)seType]);
+                seAudio.clip = SEAudioClips[(int)seType];
+                seAudio.Play();
+                break;
             }
         }
     }
